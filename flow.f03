@@ -1,3 +1,14 @@
+!###################################################################################
+!# Author: Callum Tyler 2020
+!#
+!### Description:
+!# This program estimates Open Channel Flow [m^3/s] estimated for using a 1D kalman filter.
+!# 
+!### Instructions:
+!# Compile with: `gfortran flow.f03 -o flow`
+!# Run with: ./flow
+!#
+!###################################################################################
 ! Estimate flow
 program flow
   implicit none

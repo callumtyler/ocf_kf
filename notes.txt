@@ -6,3 +6,5 @@ TODO:
 - update for data & flow_curr/flow_prev to use the same type of array
 - write correct csv file
 - validation tests
+- data_plot: plot results with matplot lib
+- flow: allow user to define which file to run on

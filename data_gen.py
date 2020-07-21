@@ -1,15 +1,43 @@
+###################################################################################
+# Author: Callum Tyler 2020
+#
+### Description
+# This script generates simulation data of a flow through an open channel. 
+# Water depth and speed would be measured from gauges. Channel width from
+# satellite images. Simulated height, water depth and speed data are then
+# saved to a csv file.
+#
+### Instructions
+# To generate simulation data:
+# `python3 [output_file] [duration, secs] [timestep, secs] [channel width, m] \
+# [bank_angle, deg] [initial speed, m/s] [water height, m]`
+#
+### Definition: Open Channel Flow 
+# Flow equals wetted area (WA) multiplied by water speed (WS)
+# Q = WA*WS = WS*(channel_width*water_depth + 2*sin(90-bank_angle)) [m^3/s]
+#
+#         surface_width       /  bank_angle
+#    ⊢--------------------⊣ _/___
+#  \                        /
+#   \----------------------/ ⊤
+#    \                    /  |  water_depth
+#     \__________________/   ⊥
+#      ⊢----------------⊣
+#        channel_width
+#
+### Assumptions:
+# -> water speed may not increase w/ height & width. <- need to correct
+# -> Surface width dependant on  water height.
+# -> bank angle is measured from the horizon
+#
+####################################################################################
+
 import csv
 import random
 import math
 import argparse
 import pandas as pd
 import os 
-
-## Assumptions:
-# flow velocity may not increase w/ height & width. 
-# Surface width dependant on  water height.
-# bank angle is measured from the horizon
-##
 
 class Data:
 	## Initialise class
