@@ -2,10 +2,10 @@
 program flow
   implicit none
 
+  integer :: ui_in = 10, ui_out = 11 !! handles for I/O if files
   real :: pi = 3.1415927 !! pi
-  real :: num_iter = 0 !! no. of interations
-  real :: flow_meas !! measured (calculated) flow [m^3/s]
-  real, dimension (:), allocatable :: flow_curr, flow_prev !! estimate arrays [m^3/s]
+  real :: num_iter = 1 !! no. of interations - cannot be zero
+  real, dimension (:), allocatable :: flow_meas, flow_curr, flow_prev !! estimate arrays [m^3/s]
   integer :: i = 1 !! iterator
   integer, parameter :: nrows = 1000, ncols = 5 !! size of data array [nrow x ncols]
   real :: data(nrows, ncols) !! initialise data array
@@ -14,13 +14,14 @@ program flow
   !! Allocate memory for flow estimates
   allocate (flow_curr(1:nrows)) !! flow array [m^3/s]
   allocate (flow_prev(1:nrows)) !! flow array [m^3/s]
+  allocate (flow_meas(1:nrows)) !! flow array [m^3/s]
 
   !! read data from file
-  open(unit=10,file='/home/callum/Desktop/ocf_ukf/ocf_data.csv', action="read", status="old")
+  open(unit=ui_in,file='/home/callum/Desktop/ocf_ukf/ocf_data.csv', action="read", status="old")
   do i=1,nrows
-    read(10,*) data(i,:) !! [timestamp, height, width, velocity]
+    read(ui_in,*) data(i,:) !! [timestamp, height, width, velocity]
   end do 
-  close(10)
+  close(ui_in)
   
   !! bank slope related coefficient
   bank_coef=2*sin((90-data(i,5))*(pi/180))
@@ -31,9 +32,9 @@ program flow
     !! increment for gain
     num_iter = num_iter + 1
     !! calculate measured flow
-    flow_meas = data(i,4)*(data(i,3)*data(i,2)+bank_coef)
+    flow_meas(i) = data(i,4)*(data(i,3)*data(i,2)+bank_coef)
     !! calculate current estimate
-    flow_curr(i) = flow_prev(i) + (1/num_iter)*(flow_meas-flow_prev(i))
+    flow_curr(i) = flow_prev(i) + (1/num_iter)*(flow_meas(i)-flow_prev(i))
     ! print *, data(i,1), data(i,2), data(i,3), data(i,4), (flow_meas - flow_prev(i)), (1/num_iter)*(flow_meas - flow_prev(i))
 
     !! pass current estimates to previous
@@ -42,9 +43,25 @@ program flow
       flow_prev(i+1) = flow_curr(i)
       !print *, flow_prev(i+1), flow_curr(i)
     end if
-
-    !! print estimates
-    print *, flow_meas, flow_prev(i), flow_curr(i)
   end do
+
+  !! save estimates - write over last file
+  open(unit=ui_out,file='/home/callum/Desktop/ocf_ukf/ocf_flow_meas.csv', action="write")
+  do i=1,nrows 
+    write(ui_out,*) flow_meas(i) !! [measured flow, previous flow, current flow]
+  end do 
+  close(ui_out)
+
+  open(unit=ui_out,file='/home/callum/Desktop/ocf_ukf/ocf_flow_prev.csv', action="write")
+  do i=1,nrows 
+    write(ui_out,*) flow_prev(i) !! [measured flow, previous flow, current flow]
+  end do 
+  close(ui_out)
+
+  open(unit=ui_out,file='/home/callum/Desktop/ocf_ukf/ocf_flow_curr.csv', action="write")
+  do i=1,nrows 
+    write(ui_out,*) flow_curr(i) !! [measured flow, previous flow, current flow]
+  end do 
+  close(ui_out)
 
 end program flow

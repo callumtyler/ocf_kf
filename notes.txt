@@ -4,4 +4,5 @@ Problem calculates are not constant
 
 TODO:
 - update for data & flow_curr/flow_prev to use the same type of array
-- 
+- write correct csv file
+- validation tests
