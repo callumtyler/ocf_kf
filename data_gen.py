@@ -55,9 +55,9 @@ class Data:
 	def save_data(self):
 		with open(self.output_file, 'w', newline='') as csvfile:
 			writer = csv.writer(csvfile, delimiter=',')
-			##writer.writerow(['timestamp', 'height', 'width', 'velocity']) ## Leave csv headless
+			##writer.writerow(['timestamp', 'height', 'width', 'velocity', 'bank_angle']) ## Leave csv headless
 			for i in range(len(self.t_arr)):
-				writer.writerow([self.t_arr[i],self.h[i],self.W[i],self.v[i]])
+				writer.writerow([self.t_arr[i],self.h[i],self.W[i],self.v[i], 90-self.bank_angle_vert])
 		print ("Saved data to: ", self.output_file)
 
 	## Save parameters

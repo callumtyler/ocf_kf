@@ -1,0 +1,7 @@
+Problem calculates are not constant
+- data print out constant as expected
+--> problem resolved I had not initialised num_iter
+
+TODO:
+- update for data & flow_curr/flow_prev to use the same type of array
+- 
