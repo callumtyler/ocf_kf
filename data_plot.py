@@ -12,7 +12,7 @@ import math
 import argparse
 import os
 import matplotlib.pyplot as plt
-# from array import *
+from numpy import genfromtxt
 import numpy as np
 
 class Data:
@@ -28,26 +28,11 @@ class Data:
 
     def load_data(self):
         current_directory = os.getcwd()
-        ## Load curr data
-        with open(current_directory + '/' + self.filename_curr) as csv_file:
-            csv_reader = csv.reader(csv_file, delimiter=',')
-            for row in csv_reader:
-                self.data_flow_curr.append(row)
-        ## Load meas data
-        with open(current_directory+ '/' +self.filename_meas) as csv_file:
-            csv_reader = csv.reader(csv_file, delimiter=',')
-            for row in csv_reader:
-                self.data_flow_meas.append(row)
-        ## Load prev data
-        with open(current_directory+ '/' +self.filename_prev) as csv_file:
-            csv_reader = csv.reader(csv_file, delimiter=',')
-            for row in csv_reader:
-                self.data_flow_prev.append(row)
-        ## Load simulated time data
-        with open(current_directory+ '/' +self.filename_sim) as csv_file:
-            csv_reader = csv.reader(csv_file, delimiter=',')
-            for row in csv_reader:
-                self.data_sim.append(row)
+        ## Load curr, meas, prev, sim data
+        self.data_flow_curr = genfromtxt(current_directory + '/' + 'ocf_flow_curr.csv', delimiter=',')
+        self.data_flow_prev = genfromtxt(current_directory + '/' + 'ocf_flow_prev.csv', delimiter=',')
+        self.data_flow_meas = genfromtxt(current_directory + '/' + 'ocf_flow_meas.csv', delimiter=',')
+        self.data_sim = genfromtxt(current_directory + '/' + 'ocf_data.csv', delimiter=',')
 
     def plot(self):
         fig, axes = plt.subplots(1,1, sharex=True)
@@ -68,6 +53,7 @@ class Data:
         axes.plot(data_time, self.data_flow_curr, label="current flow estimate")
         axes.plot(data_time, self.data_flow_prev, label="previous flow estimate")
         axes.plot(data_time, self.data_flow_meas, label="measured flow estimate")
+        plt.legend()
         plt.show()
 
 
