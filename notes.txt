@@ -18,6 +18,10 @@ TODO:
 - flow: implement different filters and output different results for plotting
 
 Commands:
-python3 data_gen.py 100 0.1 10 35 0.25 0.2
-./flow
-python3 data_plot.py ocf_meas.csv ocf_prev.csv ocf_curr.csv ocf_data.csv
+	python3 data_gen.py 100 0.1 10 35 0.25 0.2
+	./flow
+	python3 data_plot.py ocf_meas.csv ocf_prev.csv ocf_curr.csv ocf_data.csv
+
+Assumptions:
+- all data is coming in at once
+- all data has the same timestamp (in reality it would not)
