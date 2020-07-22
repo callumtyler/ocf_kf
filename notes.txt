@@ -3,14 +3,20 @@ Problem calculates are not constant
 --> problem resolved: num_iter should have been initialised <--
 
 TODO:
-- update for data & flow_curr/flow_prev to use the same type of array
-- write correct csv file
+- flow: update for data & flow_curr/flow_prev to use the same type of array
+- flow: write correct csv file (?)
 - validation tests
 - flow: allow user to define which file to run on
 - flow: improve the filter algorithm
 - flow: turn it into OOP w/ functions
 - flow: make consitent data structures
-- data_gen: tidy up, comment, remove duplicate code
 - flow: calculate velocity correctly
 - flow: calculate flow correctly (?)
 - data_plot: include variance plots (uncertanity)
+- data_gen: tidy up, comment
+- flow: why does calculation change every time flow is ran?
+
+Commands:
+python3 data_gen.py 100 0.1 10 35 0.25 0.2
+./flow
+python3 data_plot.py ocf_meas.csv ocf_prev.csv ocf_curr.csv ocf_data.csv

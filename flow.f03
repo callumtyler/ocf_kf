@@ -35,7 +35,7 @@ program flow
   close(ui_in)
   
   !! bank slope related coefficient
-  bank_coef=2*sin((90-data(i,5))*(pi/180))
+  bank_coef=2*sin((90-data(1,5))*(pi/180))
 
   !! estimate flow filter
   flow_prev(1) = data(1,4)*(data(1,3)*data(1,2)+bank_coef)
