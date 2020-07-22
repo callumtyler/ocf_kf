@@ -44,7 +44,7 @@ class Data:
 	def __init__(self, initial_depth, channel_width, initial_speed, duration, timestep, bank_angle, num_cycles):
 		## initialise arrays, constants, variables
 		self.channel_width = float(channel_width) ## channel width
-		self.output_file = "ocf_data.csv" ## output file
+		self.output_file = "data/ocf_data.csv" ## output file
 		self.duration = float(duration) ## duration of data generation
 		self.num_cycles = float(num_cycles) ## number of cyles
 		self.step = float(timestep) ## time step

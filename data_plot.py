@@ -34,10 +34,10 @@ class Data:
     	## Get current full path
         current_directory = os.getcwd()
         ## Load curr, meas, prev, sim data
-        self.data_flow_curr = genfromtxt(current_directory + '/' + 'ocf_flow_curr.csv', delimiter=',')
-        self.data_flow_prev = genfromtxt(current_directory + '/' + 'ocf_flow_prev.csv', delimiter=',')
-        self.data_flow_meas = genfromtxt(current_directory + '/' + 'ocf_flow_meas.csv', delimiter=',')
-        self.data_sim = genfromtxt(current_directory + '/' + 'ocf_data.csv', delimiter=',')
+        self.data_flow_curr = genfromtxt(current_directory + '/data/ocf_flow_curr.csv', delimiter=',')
+        self.data_flow_prev = genfromtxt(current_directory + '/data/ocf_flow_prev.csv', delimiter=',')
+        self.data_flow_meas = genfromtxt(current_directory + '/data/ocf_flow_meas.csv', delimiter=',')
+        self.data_sim = genfromtxt(current_directory + '/' + '/data/ocf_data.csv', delimiter=',')
 
     def plot(self):
     	## Settings for plots

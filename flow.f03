@@ -29,7 +29,7 @@ program flow
   ! allocate (flow_meas(1:nrows)) !! flow array [m^3/s]
 
   !! read data from file
-  open(unit=ui_in,file='/home/callum/Desktop/ocf_ukf/ocf_data.csv', action="read", status="old")
+  open(unit=ui_in,file='/home/callum/Desktop/ocf_ukf/data/ocf_data.csv', action="read", status="old")
   do i=1,nrows
     read(ui_in,*) data(i,:) !! [timestamp, height, width, velocity]
   end do 
@@ -61,21 +61,21 @@ program flow
   end do
 
   !! save estimates - write over last file
-  open(unit=ui_out,file='/home/callum/Desktop/ocf_ukf/ocf_flow_meas.csv', action="write")
+  open(unit=ui_out,file='/home/callum/Desktop/ocf_ukf/data/ocf_flow_meas.csv', action="write")
   do i=1,nrows 
   	! write(ui_out,*) flow_meas(i)
     write(ui_out,*) flow_meas(i,1)
   end do 
   close(ui_out)
 
-  open(unit=ui_out,file='/home/callum/Desktop/ocf_ukf/ocf_flow_prev.csv', action="write")
+  open(unit=ui_out,file='/home/callum/Desktop/ocf_ukf/data/ocf_flow_prev.csv', action="write")
   do i=1,nrows 
   	! write(ui_out,*) flow_prev(i)
     write(ui_out,*) flow_prev(i,1)
   end do 
   close(ui_out)
 
-  open(unit=ui_out,file='/home/callum/Desktop/ocf_ukf/ocf_flow_curr.csv', action="write")
+  open(unit=ui_out,file='/home/callum/Desktop/ocf_ukf/data/ocf_flow_curr.csv', action="write")
   do i=1,nrows 
   	! write(ui_out,*) flow_curr(i)
     write(ui_out,*) flow_curr(i,1)
