@@ -2,8 +2,10 @@ Problem calculates are not constant
 - data print out constant as expected
 --> problem resolved: num_iter should have been initialised <--
 
+Problem two different runs of flow return different results
+--> Problem resolved: appeared to be a problem w/ reading from array <--
+
 TODO:
-- flow: update for data & flow_curr/flow_prev to use the same type of array
 - flow: write correct csv file (?)
 - validation tests
 - flow: allow user to define which file to run on
@@ -13,8 +15,7 @@ TODO:
 - flow: calculate velocity correctly
 - flow: calculate flow correctly (?)
 - data_plot: include variance plots (uncertanity)
-- data_gen: tidy up, comment
-- flow: why does calculation change every time flow is ran?
+- flow: implement different filters and output different results for plotting
 
 Commands:
 python3 data_gen.py 100 0.1 10 35 0.25 0.2
