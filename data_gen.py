@@ -36,8 +36,6 @@ import csv
 import random
 import math
 import argparse
-import pandas as pd
-import os 
 
 class Data:
 	## Initialise class

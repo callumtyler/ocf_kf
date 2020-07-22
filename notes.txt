@@ -1,6 +1,6 @@
 Problem calculates are not constant
 - data print out constant as expected
---> problem resolved I had not initialised num_iter
+--> problem resolved: num_iter should have been initialised <--
 
 TODO:
 - update for data & flow_curr/flow_prev to use the same type of array
@@ -8,3 +8,11 @@ TODO:
 - validation tests
 - data_plot: plot results with matplot lib
 - flow: allow user to define which file to run on
+- flow: improve the filter algorithm
+- flow: turn it into OOP w/ functions
+- flow: make consitent data structures
+- data_gen: tidy up, comment, remove duplicate code
+- flow: calculate velocity correctly
+- flow: calculate flow correctly (?)
+- data_plot: problem w/ show plot (lags seriously)
+- data_plot: problem w/ time

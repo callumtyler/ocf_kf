@@ -6,10 +6,10 @@
 !# 
 !### Instructions:
 !# Compile with: `gfortran flow.f03 -o flow`
-!# Run with: ./flow
+!# Run with: `./flow`
 !#
 !###################################################################################
-! Estimate flow
+
 program flow
   implicit none
 
@@ -37,7 +37,7 @@ program flow
   !! bank slope related coefficient
   bank_coef=2*sin((90-data(i,5))*(pi/180))
 
-  !! estimate flow 
+  !! estimate flow filter
   flow_prev(1) = data(1,4)*(data(1,3)*data(1,2)+bank_coef)
   do i = 1, nrows
     !! increment for gain
