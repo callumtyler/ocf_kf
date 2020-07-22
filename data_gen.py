@@ -41,19 +41,20 @@ import argparse
 
 class Data:
 	## Initialise class
-	def __init__(self, initial_height, channel_width, initial_speed, duration, timestep, bank_angle, num_cycles):
-		self.channel_width = float(channel_width)
-		self.output_file = "ocf_data.csv"
-		self.duration = float(duration)
-		self.num_cycles = float(num_cycles)
-		self.step = float(timestep)
-		self.depth = [float(initial_height)]
-		self.width = [float(channel_width)]
-		self.speed = [float(initial_speed)]
-		self.t_arr = [0.0]
-		self.angle_step = 2*math.pi/(self.duration/self.step)*self.num_cycles ## Number of cycles
-		self.bank_angle_vert = 90-float(bank_angle) 
-		self.num_decimals = 4
+	def __init__(self, initial_depth, channel_width, initial_speed, duration, timestep, bank_angle, num_cycles):
+		## initialise arrays, constants, variables
+		self.channel_width = float(channel_width) ## channel width
+		self.output_file = "ocf_data.csv" ## output file
+		self.duration = float(duration) ## duration of data generation
+		self.num_cycles = float(num_cycles) ## number of cyles
+		self.step = float(timestep) ## time step
+		self.depth = [float(initial_depth)] # water depth array
+		self.width = [float(channel_width)] # surface width array
+		self.speed = [float(initial_speed)] # water speed array
+		self.t_arr = [0.0] ## time array
+		self.angle_step = 2*math.pi/(self.duration/self.step)*self.num_cycles ## variation step
+		self.bank_angle_vert = 90-float(bank_angle) ## bank angle from vertical
+		self.num_decimals = 4 ## rounding
 	
 	## Generate data
 	def gen_data(self):
