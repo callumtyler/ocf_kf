@@ -9,7 +9,7 @@
 #
 ### Instructions
 # To generate simulation data:
-# `python3 [duration, secs] [timestep, secs] [channel width, m] \
+# `python3 [duration, secs] [timestep, secs] [num_cycles] [channel width, m] \
 # [bank_angle, deg] [initial speed, m/s] [water height, m]`
 # Generated data will be saved in "ocf_data.csv" in the directory of this script. 
 #
