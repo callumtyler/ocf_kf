@@ -76,35 +76,68 @@
 ! filter estimates
 ! export data
 
-module load_data_module
+module data_handling_module
+  integer, parameter :: ui=10
   contains
+    !! load_data subroutine
     subroutine load_data(data, nrows, ncols)
       integer, intent (in) :: nrows
       integer, intent (in) :: ncols
       real, intent (inout) :: data(nrows, ncols)
 
-      !! read data from file
-      open(unit=10,file='/home/callum/Desktop/ocf_kf/data/ocf_data.csv', action="read", status="old")
-      do i=1,nrows
-        read(10,*) data(i,:) !! [timestamp, height, width, velocity]
-      end do 
-      close(10)
-    end subroutine load_data
-end module load_data_module
+      print *, " % Loading Data"
 
+      !! read data from file
+      open(unit=ui,file='/home/callum/Desktop/ocf_kf/data/ocf_data.csv', action="read", status="old")
+      do i=1,nrows
+        read(ui,*) data(i,:) !! [timestamp, height, width, velocity]
+      end do 
+      close(ui)
+    end subroutine load_data
+
+    !! save_data subroutine
+    subroutine save_data()
+      print *, " % Saving data"
+    !! save estimates - write over last file
+      ! open(unit=ui,file='/home/callum/Desktop/ocf_kf/data/ocf_flow_meas.csv', action="write")
+      ! do i=1,nrows 
+      !   write(ui,*) flow_meas(i,1)
+      ! end do 
+      ! close(ui)
+
+      ! open(unit=ui,file='/home/callum/Desktop/ocf_kf/data/ocf_flow_prev.csv', action="write")
+      ! do i=1,nrows 
+      !   write(ui,*) flow_prev(i,1)
+      ! end do 
+      ! close(ui)
+
+      ! open(unit=ui,file='/home/callum/Desktop/ocf_kf/data/ocf_flow_curr.csv', action="write")
+      ! do i=1,nrows 
+      !   write(ui,*) flow_curr(i,1)
+      ! end do 
+      ! close(ui)
+
+    end subroutine save_data
+
+end module data_handling_module
 
 
 program flow_dev
-  use load_data_module
+  use data_handling_module
   implicit none
 
-  integer :: ui_in = 10, ui_out = 11 !! handles for I/O if files
+  !integer, parameter :: ui_in = 10, ui_out = 11 !! handles for I/O if files
   integer, parameter :: nrows = 1000, ncols = 5 , ncols_out = 1
+
+
   real :: data(nrows, ncols) !! initialise data array
   real :: flow_meas(nrows, ncols_out), flow_curr(nrows, ncols_out), flow_prev(nrows, ncols_out) !! estimate arrays [m^3/s]
   integer :: i = 1 !! iterator
 
+  print *, "Open Channel Flow - Filters"
+
   call load_data(data, nrows, ncols)
+  call save_data()
 
   !! Test print
   do i=1,10
