@@ -9,12 +9,11 @@ TODO:
 - flow: write correct csv file (?)
 - validation tests
 - flow: allow user to define which file to run on
-- flow: improve the filter algorithm
-- flow: turn it into OOP w/ functions
-- flow: make consitent data structures
-- flow: calculate velocity correctly
+- flow: add extra filter algorithms
+- data_gen: calculate velocity correctly
 - flow: calculate flow correctly (?)
 - data_plot: include variance plots (uncertanity)
+- data_plot: increase lengend font
 - flow: implement different filters and output different results for plotting
 - README: provide detailed theory explanation, stating assumptions
 
