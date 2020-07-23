@@ -32,7 +32,7 @@ program flow
   !! bank slope related coefficient
   bank_coef=2*sin((90-data(1,5))*(pi/180))
 
-  !! estimate flow filter
+  !! estimate mean flow filter
   flow_prev(1,1) = data(1,4)*(data(1,3)*data(1,2)+bank_coef)
   do i = 1, nrows
     !! increment for gain

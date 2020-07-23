@@ -16,6 +16,7 @@ TODO:
 - flow: calculate flow correctly (?)
 - data_plot: include variance plots (uncertanity)
 - flow: implement different filters and output different results for plotting
+- README: provide detailed theory explanation, stating assumptions
 
 Commands:
 	python3 data_gen.py 100 0.1 10 35 0.25 0.2
