@@ -31,7 +31,7 @@
 # -> Surface width dependant on  water height.
 # -> bank angle is measured from the horizon
 # -> Steady-State, Uniform Flow in open channel
-# -> Manning's roughness is trowel finish
+# -> Manning's roughness is concrete trowel finish
 #
 ####################################################################################
 
@@ -40,28 +40,29 @@ import csv
 import random
 import math
 import argparse
+import data_gen_params
 
 class Data:
     ## Initialise class
-    def __init__(self, initial_depth, channel_width, initial_speed, duration, timestep, bank_angle, num_cycles):
+    def __init__(self, _data_gen_params):
         ## initialise arrays, constants, variables
-        self.channel_width = float(channel_width) ## channel width
+        self.channel_width = float(_data_gen_params._channel_width) ## channel width
         self.output_file = "data/ocf_data.csv" ## output file
-        self.duration = float(duration) ## duration of data generation
-        self.num_cycles = float(num_cycles) ## number of cyles
-        self.step = float(timestep) ## time step
-        self.depth = [float(initial_depth)] # water depth array
-        self.width = [float(channel_width)] # surface width array
-        self.speed = [float(initial_speed)] # water speed array
-        self.t_arr = [0.0] ## time array
+        self.duration = float(_data_gen_params._duration) ## duration of data generation
+        self.num_cycles = float(_data_gen_params._num_cycles) ## number of cyles
+        self.step = float(_data_gen_params._timestep) ## time step
+        self.depth = [float(_data_gen_params._inital_water_depth)] # water depth array
+        self.width = [] # surface width array
+        self.speed = [] # water speed array
+        self.t_arr = [] ## time array
         self.angle_step = 2*math.pi/(self.duration/self.step)*self.num_cycles ## variation step
-        self.bank_angle_vert = 90-float(bank_angle) ## bank angle from vertical
+        self.bank_angle_vert = 90-float(_data_gen_params._bank_angle) ## bank angle from vertical
         self.num_decimals = 4 ## rounding
-        self.manning_coef = 0.013 # trowel finished #TODO my user input
-        self.channel_angle = 1 # degrees #TODO my user input
-        self.channel_length = 1000 # metres #TODO my user input
-        self.channel_decent = 5 # metres #TODO my user input
-        self.channel_slope = self.channel_decent/(self.channel_length*math.cos(math.radians(self.channel_angle))) # S_0
+        self.manning_coef = _data_gen_params._manning_coef ## trowel finished #TODO my user input
+        self.channel_angle = _data_gen_params._channel_angle ## degrees #TODO my user input
+        self.channel_length = _data_gen_params._channel_length # metres #TODO my user input
+        self.channel_decent = _data_gen_params._channel_decent ## metres #TODO my user input
+        self.channel_slope = self.channel_decent/(self.channel_length*math.cos(math.radians(self.channel_angle))) ## channel slope
         self.width_noise = 0.0
         self.depth_noise = 0.0
         self.speed_noise = 0.0
@@ -75,7 +76,7 @@ class Data:
         while t <= self.duration:
             print (t)
             ## Vary random signal noise
-            self.depth_noise = random.randint(0,100)/1e4 # Must be positive
+            self.depth_noise = random.randint(0,100)/1e4 ## Must be positive
             self.width_noise = random.randint(-2,20)/1e4
             self.speed_noise = random.randint(-8,80)/1e4
 
@@ -134,17 +135,11 @@ class Data:
         self.width.append(round(water_width+self.width_noise, self.num_decimals)) ## Append width calc.
         
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Generate channel flow data.')
-    parser.add_argument('duration', help='time duration, s')
-    parser.add_argument('timestep', help='timestep size, s')
-    parser.add_argument('num_cycles', help='number of sinusoid cycles')
-    parser.add_argument('channel_width', help="width, m")
-    parser.add_argument('bank_angle', help="angle of bank from horizontal, degrees")
-    parser.add_argument('initial_flow', help="water speed, m/s")
-    parser.add_argument('inital_water_height', help="water height, m")
+    parser = argparse.ArgumentParser(description=\
+        'Welcome to data_gen for generating open channel flow data. Parameters can edited in "gen_data_params.py".')
     args = parser.parse_args()
 
-    data = Data(args.inital_water_height, args.channel_width, args.initial_flow, args.duration, args.timestep, args.bank_angle, args.num_cycles)
+    data = Data(data_gen_params)
     data.gen_data()
     data.save_data()
     data.save_input_parameters()
