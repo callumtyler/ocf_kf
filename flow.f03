@@ -156,12 +156,12 @@ module filtering_module
 
         !! recalculate/update kalman gain for next iteration
         kalman_gain = uncert_prev/(uncert_prev-uncert_meas)
-        ! print *, kalman_gain
+        
         !! check kalman_gain
-        ! if (isnan(kalman_gain)) then
+        ! if (ieee_is_nan(kalman_gain)) then
         !   print *, "Kalman gain is NaN"
-        ! ! else if (kalman_gain == Infinity) then
-        ! !   print *, "kalman gain is Infinity"
+        ! else if (.not. ieee_is_finite(kalman_gain)) then
+        !   print *, "kalman gain is Infinity"
         ! end if
 
       end do
@@ -170,6 +170,7 @@ end module filtering_module
 
 
 program flow
+  ! use, intrinsic :: ieee_arithmetic
   use data_handling_module
   use filtering_module
   implicit none
@@ -183,9 +184,9 @@ program flow
   real :: flow_meas(nrows, ncols_out), flow_curr(nrows, ncols_out), flow_prev(nrows, ncols_out)
 
   print *, "Open Channel Flow - Filters"
-  print *, uncert_curr, uncert_meas, uncert_prev
+
   call load_parameters(uncert_curr, uncert_meas, uncert_prev, type_filter)
-  print *, uncert_curr, uncert_meas, uncert_prev
+
   call load_data(data, nrows, ncols)
 
   if (type_filter == 1) then
