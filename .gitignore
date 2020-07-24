@@ -1,1 +1,3 @@
 *.csv
+*.mod
+__pycache__
