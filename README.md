@@ -1,7 +1,7 @@
 Open Channel Flow - Kalman Filters
 
 1) Generate simulation data with:
- `python3 [duration, secs] [timestep, secs] [num_cycles] [channel width, m] [bank_angle, deg] [initial speed, m/s] [water height, m]`.
+ `python3 data_gen.py`
 2) Run Kalman Filter with:
  `./flow`
 3) Plot results with: 
