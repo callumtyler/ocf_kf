@@ -74,7 +74,6 @@ class Data:
 
         print ("Generating data %")
         while t <= self.duration:
-            print (t)
             ## Vary random signal noise
             self.depth_noise = random.randint(0,100)/1e4 ## Must be positive
             self.width_noise = random.randint(-2,20)/1e4

@@ -67,6 +67,8 @@ module filtering_module
   real :: num_iter = 1 !! no. of interations - cannot be zero
   real, parameter :: pi=3.1415927 !! pi
   integer :: jj = 1 !! iterator
+  real :: kalman_gain = 1.0 !! Kalman gain
+  real :: uncert_temp = 1.0 !! temporary uncertainty variable
   contains
     subroutine mean_filter(data, flow_meas, flow_prev, flow_curr, nrows, ncols, ncols_out)
       integer, intent (in) :: nrows
@@ -79,10 +81,10 @@ module filtering_module
 
       print *, " % Running mean filter %"
 
-      ! bank slope related coefficient
+      !! bank slope related coefficient
       bank_coef = 2*sin((90-data(1,5))*(pi/180))
 
-      ! estimate mean flow filter
+      !! estimate mean flow filter
       flow_prev(1,1) = data(1,4)*(data(1,3)*data(1,2)+bank_coef)
       do jj = 1, nrows
         !! increment for gain
@@ -97,8 +99,53 @@ module filtering_module
           flow_prev(jj+1,1) = flow_curr(jj,1)
         end if
       end do
-
     end subroutine mean_filter
+
+    subroutine kalman_filter(data, flow_meas, flow_prev, flow_curr, nrows, ncols, ncols_out, uncert_prev, uncert_meas, uncert_curr)
+      real, intent (inout) :: uncert_curr
+      real, intent (inout) :: uncert_prev
+      real, intent (inout) :: uncert_meas
+      integer, intent (in) :: nrows
+      integer, intent (in) :: ncols
+      integer, intent (in) :: ncols_out
+      real, intent (in) :: data(nrows, ncols)
+      real, intent (inout) :: flow_meas(nrows, ncols_out)
+      real, intent (inout) :: flow_prev(nrows, ncols_out)
+      real, intent (inout) :: flow_curr(nrows, ncols_out)
+
+      print *, " % Running kalman filter %"
+
+      !! bank slope related coefficient
+      bank_coef = 2*sin((90-data(1,5))*(pi/180))
+      !! calculate initial kalman gain
+      kalman_gain = uncert_prev/(uncert_prev-uncert_meas)
+
+      do jj = 1, nrows
+        !! calculate measured flow
+        flow_meas(jj,1) = data(jj,4)*(data(jj,3)*data(jj,2)+bank_coef)
+        !! calculate current estimate
+        flow_curr(jj,1) = flow_prev(jj,1) + kalman_gain*(flow_meas(jj,1)-flow_prev(jj,1))
+
+        !! pass current estimates to previous
+        if (jj + 1 < nrows ) then
+          flow_prev(jj+1,1) = flow_curr(jj,1)
+        end if
+
+        !! temporarily store uncert_curr
+        uncert_temp = uncert_curr
+
+        !! recalculate/update uncert_curr for next iteration
+        uncert_curr = (1 - kalman_gain)*uncert_prev
+
+        !! push current to prev for next iteration
+        uncert_prev = uncert_temp
+
+        !! recalculate/update kalman gain for next iteration
+        kalman_gain = uncert_prev/(uncert_prev-uncert_meas)
+
+      end do
+    end subroutine kalman_filter
+
 end module filtering_module
 
 
@@ -108,6 +155,13 @@ program flow
   implicit none
 
   integer, parameter :: nrows = 1000, ncols = 5 , ncols_out = 1
+  real :: uncert_prev = 0.09, uncert_meas = 0.001, uncert_curr = 0.1
+
+  !! Add user input for:
+  !! - uncertainies
+  !! - directory
+  !! - type of filter to use
+  !! Add option for type of filter
 
   real :: data(nrows, ncols) !! initialise data array
   real :: flow_meas(nrows, ncols_out), flow_curr(nrows, ncols_out), flow_prev(nrows, ncols_out) !! estimate arrays [m^3/s]
@@ -115,7 +169,8 @@ program flow
   print *, "Open Channel Flow - Filters"
 
   call load_data(data, nrows, ncols)
-  call mean_filter(data, flow_meas, flow_prev, flow_curr, nrows, ncols, ncols_out)
+  ! call mean_filter(data, flow_meas, flow_prev, flow_curr, nrows, ncols, ncols_out)
+  call kalman_filter(data, flow_meas, flow_prev, flow_curr, nrows, ncols, ncols_out, uncert_prev, uncert_meas, uncert_curr)
   call save_data(flow_meas, flow_prev, flow_curr, nrows, ncols_out)
 
 end program flow
