@@ -61,15 +61,13 @@ module data_handling_module
       close(ui) !! close file
     end subroutine save_data
 
-    subroutine load_parameters(nrows, uncert_curr, uncert_prev, uncert_meas, type_filter)
+    subroutine load_parameters(uncert_curr, uncert_prev, uncert_meas, type_filter)
       real, intent (inout) :: uncert_curr
       real, intent (inout) :: uncert_prev
       real, intent (inout) :: uncert_meas
-      integer, intent (inout) :: nrows
       integer, intent (inout) :: type_filter
       print *, "--> Loading parameters -->"
       open(unit=ui,file='/home/callum/Desktop/ocf_kf/flow_parameters.txt', action="read")
-      read(ui,*) nrows
       read(ui,*) uncert_curr
       read(ui,*) uncert_prev
       read(ui,*) uncert_meas
@@ -158,6 +156,14 @@ module filtering_module
 
         !! recalculate/update kalman gain for next iteration
         kalman_gain = uncert_prev/(uncert_prev-uncert_meas)
+        ! print *, kalman_gain
+        !! check kalman_gain
+        ! if (isnan(kalman_gain)) then
+        !   print *, "Kalman gain is NaN"
+        ! ! else if (kalman_gain == Infinity) then
+        ! !   print *, "kalman gain is Infinity"
+        ! end if
+
       end do
     end subroutine kalman_filter
 end module filtering_module
@@ -170,17 +176,16 @@ program flow
 
   !! define & initialise variables and constants
   integer, parameter :: ncols = 5 , ncols_out = 1, nrows = 1000
-  integer :: type_filter = 0 
-  real :: uncert_prev = 0.09, uncert_meas = 0.001, uncert_curr = 0.1  
-
-  print *, "Open Channel Flow - Filters"
-
-  call load_parameters(uncert_curr, uncert_meas, uncert_prev, type_filter)
-  
+  integer :: type_filter = 2 
+  real :: uncert_curr = 0.1, uncert_meas = 0.001, uncert_prev = 0.09 
   real :: data(nrows, ncols) !! initialise data array
   ! estimate arrays [m^3/s]
-  real :: flow_meas(nrows, ncols_out), flow_curr(nrows, ncols_out), flow_prev(nrows, ncols_out) 
+  real :: flow_meas(nrows, ncols_out), flow_curr(nrows, ncols_out), flow_prev(nrows, ncols_out)
 
+  print *, "Open Channel Flow - Filters"
+  print *, uncert_curr, uncert_meas, uncert_prev
+  call load_parameters(uncert_curr, uncert_meas, uncert_prev, type_filter)
+  print *, uncert_curr, uncert_meas, uncert_prev
   call load_data(data, nrows, ncols)
 
   if (type_filter == 1) then
