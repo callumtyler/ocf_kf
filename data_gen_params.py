@@ -16,4 +16,3 @@ _num_cycles = 6 ## Number of sinusoidal cycles
 _manning_coef = 0.013 ## Manning's Coefficient - concrete, trowel finished 
 _channel_angle = 1 ## Channel steepness [degrees] 
 _channel_length = 1000 # Channel length [metres]
-_channel_decent = 1 ## Channel decent [metres] 

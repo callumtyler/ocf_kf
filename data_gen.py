@@ -58,10 +58,10 @@ class Data:
         self.angle_step = 2*math.pi/(self.duration/self.step)*self.num_cycles ## variation step
         self.bank_angle_vert = 90-float(_data_gen_params._bank_angle) ## bank angle from vertical
         self.num_decimals = 4 ## rounding
-        self.manning_coef = _data_gen_params._manning_coef ## trowel finished #TODO my user input
-        self.channel_angle = _data_gen_params._channel_angle ## degrees #TODO my user input
-        self.channel_length = _data_gen_params._channel_length # metres #TODO my user input
-        self.channel_decent = _data_gen_params._channel_decent ## metres #TODO my user input
+        self.manning_coef = _data_gen_params._manning_coef ## trowel finished
+        self.channel_angle = _data_gen_params._channel_angle ## degrees
+        self.channel_length = _data_gen_params._channel_length # metres
+        self.channel_decent = self.channel_length*math.sin(self.channel_angle) ## metres
         self.channel_slope = self.channel_decent/(self.channel_length*math.cos(math.radians(self.channel_angle))) ## channel slope
         self.width_noise = 0.0
         self.depth_noise = 0.0
@@ -142,4 +142,3 @@ if __name__ == "__main__":
     data.gen_data()
     data.save_data()
     data.save_input_parameters()
-
