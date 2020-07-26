@@ -57,9 +57,9 @@ class Data:
         axes.set_ylabel("Flow [m^3/s]", fontsize=label_font_size)
 
         ## Plot data
-        curr = axes.plot(data_time, self.data_flow_curr, '-', label="estimated flow", linewidth=3)
-        #prev = axes.plot(data_time, self.data_flow_prev, ':', label="previous flow estimate", linewidth=3)
-        meas = axes.plot(data_time, self.data_flow_meas, '-', label="measured flow ", linewidth=3)
+        curr = axes.plot(data_time[:-2], self.data_flow_curr[:-2], '-', label="estimated flow", linewidth=3)
+        ##prev = axes.plot(data_time[:-2], self.data_flow_prev[:-2], ':', label="previous flow estimate", linewidth=3) ## For testing
+        meas = axes.plot(data_time[:-2], self.data_flow_meas[:-2], '-', label="measured flow ", linewidth=3)
         plt.legend(fontsize=legend_font_size)
         plt.show()
 

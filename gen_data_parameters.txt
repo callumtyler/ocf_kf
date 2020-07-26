@@ -1,6 +1,0 @@
-duration,365.0
-initial_water_height,1.0
-initial_flow,308.7775
-timestep,1.0
-channel_width,20.0
-channel_bank_angle,25.0

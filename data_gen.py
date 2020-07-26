@@ -140,4 +140,4 @@ if __name__ == "__main__":
     data = Data(data_gen_params)
     data.gen_data()
     data.save_data()
-    data.save_input_parameters()
+    ##data.save_input_parameters() ## Unused

@@ -48,7 +48,7 @@ module data_handling_module
       end do 
       close(ui) !! close file
 
-      open(unit=ui,file='ocf_flow_prev.csv', action="write")
+      open(unit=ui,file='data/ocf_flow_prev.csv', action="write")
       do ii=1,nrows 
         write(ui,*) flow_prev(ii,ncols_out) !! write data row-by-row
       end do 
@@ -101,7 +101,7 @@ module filtering_module
       !
       ! estimate mean flow filter
       flow_prev(1,1) = data(1,4)*(data(1,3)*data(1,2)+bank_coef)
-      do jj = 1, nrows
+      do jj = 1, (nrows-2)
         !! increment for gain
         num_iter = num_iter + 1
         !! calculate measured flow
@@ -135,7 +135,7 @@ module filtering_module
       !! calculate initial kalman gain
       kalman_gain = uncert_prev/(uncert_prev-uncert_meas)
 
-      do jj = 1, nrows
+      do jj = 1, (nrows-2)
         !! calculate measured flow
         flow_meas(jj,1) = data(jj,4)*(data(jj,3)*data(jj,2)+bank_coef)
         !! calculate current estimate
