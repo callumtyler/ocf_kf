@@ -49,7 +49,7 @@ class Data:
         legend_font_size = 22
         fig.suptitle("Flow estimates [m^3/s]", fontsize=sup_title_font_size)
         axes.legend(fontsize=legend_font_size)
-        axes.set_xlabel("Time [sec]", fontsize=label_font_size)
+        axes.set_xlabel("Time [days]", fontsize=label_font_size)
         axes.set_ylabel("Flow [m^3/s]", fontsize=label_font_size)
 
         ## Prepare time data for plot

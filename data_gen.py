@@ -27,7 +27,6 @@
 #        channel_width
 #
 ### Assumptions:
-# -> water speed may not increase w/ height & width. <- need to correct
 # -> Surface width dependant on  water height.
 # -> bank angle is measured from the horizon
 # -> Steady-State, Uniform Flow in open channel
@@ -75,12 +74,12 @@ class Data:
         print ("Generating data %")
         while t <= self.duration:
             ## Vary random signal noise
-            self.depth_noise = random.randint(0,100)/1e4 ## Must be positive
-            self.width_noise = random.randint(-2,20)/1e4
-            self.speed_noise = random.randint(-8,80)/1e4
+            self.depth_noise = random.randint(-10,100)/1e3 ## Must be positive
+            self.width_noise = random.randint(-2,20)/1e3
+            self.speed_noise = random.randint(-8,80)/1e3
 
             ## Generate vairation signal w/ sinusoid
-            variation = math.sin(angle) 
+            variation = 0.8 + (math.cos(7*angle) + math.sin(3*angle) + math.sin(4*angle) + math.cos(angle))/4  #math.sin(angle)
 
             ## Append depth calc. Use 1st value to allow sin variation. Must be calculated before speed & width
             self.depth.append(round(self.depth[0]*variation+self.depth_noise + self.depth[0], self.num_decimals))

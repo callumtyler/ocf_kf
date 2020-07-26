@@ -1,4 +1,4 @@
 0.5 ! current uncertainity
-0.09 ! measurements uncertainity
-0.15 ! previous uncertainity
-1 ! filter type (1) mean (2) kalman
+0.05 ! measurements uncertainity
+0.45 ! previous uncertainity
+2 ! filter type (1) mean (2) kalman

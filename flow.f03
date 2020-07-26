@@ -177,7 +177,7 @@ program flow
   implicit none
 
   !! define & initialise variables and constants
-  integer, parameter :: ncols = 5 , ncols_out = 1, nrows = 1000
+  integer, parameter :: ncols = 5 , ncols_out = 1, nrows = 365
   integer :: type_filter = 2 
   real :: uncert_curr = 0.1, uncert_meas = 0.001, uncert_prev = 0.09 
   real :: data(nrows, ncols) !! initialise data array
