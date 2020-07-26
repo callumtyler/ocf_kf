@@ -40,6 +40,11 @@ class Data:
         self.data_sim = genfromtxt(current_directory + '/' + '/data/ocf_data.csv', delimiter=',')
 
     def plot(self):
+        ## Prepare time data for plot   
+        data_time = np.empty([len(self.data_flow_curr), 1])
+        for i in range(len(self.data_flow_curr)):
+            data_time[i] = float(self.data_sim[i][0])
+
         ## Settings for plots
         fig, axes = plt.subplots(1,1, sharex=True)
         sup_title_font_size = 28    
@@ -48,20 +53,14 @@ class Data:
         tick_font_size = 16
         legend_font_size = 22
         fig.suptitle("Flow estimates [m^3/s]", fontsize=sup_title_font_size)
-        axes.legend(fontsize=legend_font_size)
         axes.set_xlabel("Time [days]", fontsize=label_font_size)
         axes.set_ylabel("Flow [m^3/s]", fontsize=label_font_size)
 
-        ## Prepare time data for plot
-        data_time = np.empty([len(self.data_flow_curr), 1])
-        for i in range(len(self.data_flow_curr)):
-            data_time[i] = float(self.data_sim[i][0])
-
         ## Plot data
-        axes.plot(data_time, self.data_flow_curr, label="current flow estimate")
-        axes.plot(data_time, self.data_flow_prev, label="previous flow estimate")
-        axes.plot(data_time, self.data_flow_meas, label="measured flow estimate")
-        plt.legend()
+        curr = axes.plot(data_time, self.data_flow_curr, '--', label="current flow estimate", linewidth=3)
+        prev = axes.plot(data_time, self.data_flow_prev, ':', label="previous flow estimate", linewidth=3)
+        meas = axes.plot(data_time, self.data_flow_meas, '-', label="measured flow estimate", linewidth=2)
+        plt.legend(fontsize=legend_font_size)
         plt.show()
 
 
