@@ -26,7 +26,7 @@ module data_handling_module
       print *, " --> Loading Data -->"
 
       !! read data from file
-      open(unit=ui,file='/home/callum/Desktop/ocf_kf/data/ocf_data.csv', action="read", status="old")
+      open(unit=ui,file='data/ocf_data.csv', action="read", status="old")
       do i=1,nrows
         read(ui,*) data(i,:) !! read all columns row-by-row [timestamp, height, width, velocity]
       end do 
@@ -42,19 +42,19 @@ module data_handling_module
       real, intent (in) :: flow_curr(nrows, ncols_out)
       print *, " <-- Saving data <--"
       !! save estimates - write over last file
-      open(unit=ui,file='/home/callum/Desktop/ocf_kf/data/ocf_flow_meas.csv', action="write")
+      open(unit=ui,file='data/ocf_flow_meas.csv', action="write")
       do ii=1,nrows 
         write(ui,*) flow_meas(ii,ncols_out) !! write data row-by-row
       end do 
       close(ui) !! close file
 
-      open(unit=ui,file='/home/callum/Desktop/ocf_kf/data/ocf_flow_prev.csv', action="write")
+      open(unit=ui,file='ocf_flow_prev.csv', action="write")
       do ii=1,nrows 
         write(ui,*) flow_prev(ii,ncols_out) !! write data row-by-row
       end do 
       close(ui) !! close file
 
-      open(unit=ui,file='/home/callum/Desktop/ocf_kf/data/ocf_flow_curr.csv', action="write")
+      open(unit=ui,file='data/ocf_flow_curr.csv', action="write")
       do ii=1,nrows 
         write(ui,*) flow_curr(ii,ncols_out) !! write data row-by-row
       end do 
@@ -67,7 +67,7 @@ module data_handling_module
       real, intent (inout) :: uncert_meas
       integer, intent (inout) :: type_filter
       print *, "--> Loading parameters -->"
-      open(unit=ui,file='/home/callum/Desktop/ocf_kf/flow_parameters.txt', action="read")
+      open(unit=ui,file='flow_parameters.txt', action="read")
       read(ui,*) uncert_curr
       read(ui,*) uncert_prev
       read(ui,*) uncert_meas
@@ -157,13 +157,6 @@ module filtering_module
 
         !! recalculate/update kalman gain for next iteration
         kalman_gain = uncert_prev/(uncert_prev-uncert_meas)
-        
-        !! check kalman_gain
-        ! if (ieee_is_nan(kalman_gain)) then
-        !   print *, "Kalman gain is NaN"
-        ! else if (.not. ieee_is_finite(kalman_gain)) then
-        !   print *, "kalman gain is Infinity"
-        ! end if
 
       end do
     end subroutine kalman_filter
@@ -179,7 +172,7 @@ program flow
   !! define & initialise variables and constants
   integer, parameter :: ncols = 5 , ncols_out = 1, nrows = 365
   integer :: type_filter = 2 
-  real :: uncert_curr = 0.1, uncert_meas = 0.001, uncert_prev = 0.09 
+  real :: uncert_curr = 0.0, uncert_meas = 0.0, uncert_prev = 0.0 ! 0.1, 0.001, 0.09
   real :: data(nrows, ncols) !! initialise data array
   ! estimate arrays [m^3/s]
   real :: flow_meas(nrows, ncols_out), flow_curr(nrows, ncols_out), flow_prev(nrows, ncols_out)
