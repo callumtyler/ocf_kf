@@ -10,4 +10,4 @@
 
 python3 data_gen.py
 ./flow
-python3 data_plot.py ocf_meas.csv ocf_prev.csv ocf_curr.csv ocf_data.csv
+python3 data_plot.py

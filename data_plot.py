@@ -19,12 +19,8 @@ from numpy import genfromtxt
 import numpy as np
 
 class Data:
-    def __init__(self, filename_meas, filename_curr, filename_prev, filename_sim):
+    def __init__(self):
         ## Initialise data
-        self.filename_meas = filename_meas
-        self.filename_curr = filename_curr
-        self.filename_prev = filename_prev
-        self.filename_sim = filename_sim
         self.data_flow_meas = []
         self.data_flow_curr = []
         self.data_flow_prev = []
@@ -67,15 +63,11 @@ class Data:
 if __name__ == "__main__":
     ## Load user settings
     parser = argparse.ArgumentParser(description='Plot estimated flow.')
-    parser.add_argument('flow_meas_file', help='input measured flow file')
-    parser.add_argument('flow_prev_file', help='input previous flow file')
-    parser.add_argument('flow_curr_file', help='input current flow file')
-    parser.add_argument('sim_data_file', help='input simulated data file')
     args = parser.parse_args()
 
     print ("Plotting OCF - Filter Results!")
 
     ## Build Data object
-    data = Data(args.flow_meas_file, args.flow_prev_file, args.flow_curr_file, args.sim_data_file)
+    data = Data()
     data.load_data()
     data.plot()

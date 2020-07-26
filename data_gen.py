@@ -111,7 +111,7 @@ class Data:
 
     ## Save parameters
     def save_input_parameters(self):
-        with open("gen_data_parameters.txt", 'w', newline='') as csvfile:
+        with open("last_gen_data_params.txt", 'w', newline='') as csvfile:
             writer = csv.writer(csvfile, delimiter=',')
             writer.writerow(['duration', self.duration])
             writer.writerow(['initial_water_height', self.depth[0]])
@@ -140,4 +140,4 @@ if __name__ == "__main__":
     data = Data(data_gen_params)
     data.gen_data()
     data.save_data()
-    ##data.save_input_parameters() ## Unused
+    data.save_input_parameters()
