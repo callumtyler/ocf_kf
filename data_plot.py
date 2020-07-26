@@ -52,14 +52,14 @@ class Data:
         label_font_size = 22
         tick_font_size = 16
         legend_font_size = 22
-        fig.suptitle("Flow estimates [m^3/s]", fontsize=sup_title_font_size)
+        fig.suptitle("Open Channel Flow - Measured v Estimated", fontsize=sup_title_font_size)
         axes.set_xlabel("Time [days]", fontsize=label_font_size)
         axes.set_ylabel("Flow [m^3/s]", fontsize=label_font_size)
 
         ## Plot data
-        curr = axes.plot(data_time, self.data_flow_curr, '--', label="current flow estimate", linewidth=3)
-        prev = axes.plot(data_time, self.data_flow_prev, ':', label="previous flow estimate", linewidth=3)
-        meas = axes.plot(data_time, self.data_flow_meas, '-', label="measured flow estimate", linewidth=2)
+        curr = axes.plot(data_time, self.data_flow_curr, '-', label="estimated flow", linewidth=3)
+        #prev = axes.plot(data_time, self.data_flow_prev, ':', label="previous flow estimate", linewidth=3)
+        meas = axes.plot(data_time, self.data_flow_meas, '-', label="measured flow ", linewidth=3)
         plt.legend(fontsize=legend_font_size)
         plt.show()
 
