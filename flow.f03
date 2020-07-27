@@ -98,8 +98,7 @@ module filtering_module
       !! bank slope related coefficient
       bank_coef = 2*sin((90-data(1,5))*(pi/180))
 
-      !
-      ! estimate mean flow filter
+      !! estimate mean flow filter
       flow_prev(1,1) = data(1,4)*(data(1,3)*data(1,2)+bank_coef)
       do jj = 1, (nrows-2)
         !! increment for gain
