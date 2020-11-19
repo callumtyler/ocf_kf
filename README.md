@@ -14,17 +14,9 @@ saved to a csv file. Background noise is added to the simulated data using a sin
 ### Definition: Open Channel Flow 
  Flow (Q) equals wetted area (WA) multiplied by water speed (WS)  
  Q = WA \* WS = WS \* (channel_width\*water_depth + 2\*sin(90-bank_angle)) [m^3/s]
- ```
 
-         surface_width       /  bank_angle
-    ⊢--------------------⊣ _/___
-  \                        /
-   \----------------------/ ⊤
-    \                    /  |  water_depth
-     \__________________/   ⊥
-      ⊢----------------⊣
-        channel_width
-```
+ ![image](imgs/ocf.png)
+
 ### Assumptions:
  - Surface width dependant on  water height.
  - bank angle is measured from the horizon
@@ -33,6 +25,12 @@ saved to a csv file. Background noise is added to the simulated data using a sin
 
 ## Data filtering
 Two types of filters have been implemented; 1) mean filter 2) kalman filter. Both filters have been implemented in such a way that they carry out "predict and update" steps. This allows noisy (background) data to be filtered and the true flow value to be extracted. Filter selection and uncertainities can be defined in `flow_parameters`. Filtered data is located in `data/ocf_flow_[curr/prev/meas].csv`.
+
+## Data plotting
+Example plots of generated data:
+| Mean filter            |  Kalman filter |
+:-------------------------:|:-------------------------:
+![](imgs/mean_filter.png)  |  ![](imgs/kalman_filter.png)
 
 ## To use package:
 1) Generate simulation data with:  
