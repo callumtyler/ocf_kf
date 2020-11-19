@@ -5,7 +5,7 @@
 # Plots esimates open channel flow. 
 #
 ### Instructions:
-# `python3 data_plot.py [flow_meas_file] [flow_prev_file] [flow_curr_file] [sim_data_file]`
+# `python3 data_plot.py`
 #
 ###################################################################################
 
